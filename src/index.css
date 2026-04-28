@@ -1,0 +1,302 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 200, 255, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 200, 255, 0.5);
+}
+
+/* Hide default cursor globally */
+* {
+  cursor: none !important;
+}
+
+/* Volume slider styling */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #00d4ff;
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+  cursor: none !important;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #00d4ff;
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+  border: none;
+  cursor: none !important;
+}
+
+/* Fade-in animation for view transitions */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* CSS Visualizer bars */
+@keyframes visualizerBar {
+  0%,
+  100% {
+    height: 4px;
+  }
+  25% {
+    height: 28px;
+  }
+  50% {
+    height: 12px;
+  }
+  75% {
+    height: 22px;
+  }
+}
+
+.animate-visualizer {
+  animation: visualizerBar 0.8s ease-in-out infinite;
+}
+
+/* Glitch animation for section titles */
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+    text-shadow:
+      -1px 0 rgba(0, 255, 255, 0.7),
+      1px 0 rgba(255, 0, 100, 0.7);
+  }
+  10% {
+    transform: translate(-2px, 1px);
+    text-shadow:
+      2px 0 rgba(0, 255, 255, 0.7),
+      -2px 0 rgba(255, 0, 100, 0.7);
+  }
+  20% {
+    transform: translate(2px, -1px);
+    text-shadow:
+      -2px 0 rgba(0, 255, 255, 0.7),
+      2px 0 rgba(255, 0, 100, 0.7);
+  }
+  30% {
+    transform: translate(-1px, 2px);
+    text-shadow:
+      1px 0 rgba(0, 255, 255, 0.7),
+      -1px 0 rgba(255, 0, 100, 0.7);
+  }
+  40% {
+    transform: translate(1px, -2px);
+    text-shadow:
+      -1px 0 rgba(0, 255, 255, 0.7),
+      1px 0 rgba(255, 0, 100, 0.7);
+  }
+  50% {
+    transform: translate(0);
+    text-shadow:
+      -1px 0 rgba(0, 255, 255, 0.7),
+      1px 0 rgba(255, 0, 100, 0.7);
+  }
+  60% {
+    transform: translate(2px, 1px);
+    text-shadow:
+      -2px 0 rgba(0, 255, 255, 0.7),
+      2px 0 rgba(255, 0, 100, 0.7);
+  }
+  70% {
+    transform: translate(-2px, -1px);
+    text-shadow:
+      2px 0 rgba(0, 255, 255, 0.7),
+      -2px 0 rgba(255, 0, 100, 0.7);
+  }
+  80% {
+    transform: translate(1px, 2px);
+    text-shadow:
+      -1px 0 rgba(0, 255, 255, 0.7),
+      1px 0 rgba(255, 0, 100, 0.7);
+  }
+  90% {
+    transform: translate(-1px, -1px);
+    text-shadow:
+      1px 0 rgba(0, 255, 255, 0.7),
+      -1px 0 rgba(255, 0, 100, 0.7);
+  }
+  100% {
+    transform: translate(0);
+    text-shadow: none;
+  }
+}
+
+.animate-glitch {
+  animation: glitch 0.6s ease-out;
+}
+
+/* Pulse glow for radio */
+@keyframes pulseGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(0, 255, 255, 0.5);
+  }
+}
+
+/* Zen Mode: fade in */
+@keyframes zenIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-zenIn {
+  animation: zenIn 0.6s ease-out;
+}
+
+/* Zen Mode: breathing/pulsing box-shadow on cover */
+@keyframes zenBreath {
+  0%,
+  100% {
+    box-shadow:
+      0 0 20px rgba(0, 200, 255, 0.15),
+      0 0 60px rgba(0, 200, 255, 0.08);
+  }
+  50% {
+    box-shadow:
+      0 0 40px rgba(0, 200, 255, 0.35),
+      0 0 100px rgba(0, 200, 255, 0.15),
+      0 0 160px rgba(0, 200, 255, 0.05);
+  }
+}
+
+.animate-zenBreath {
+  animation: zenBreath 3s ease-in-out infinite;
+}
+
+/* Zen Mode: glowing text */
+@keyframes zenTextGlow {
+  0%,
+  100% {
+    text-shadow:
+      0 0 10px rgba(0, 200, 255, 0.3),
+      0 0 30px rgba(0, 200, 255, 0.1);
+  }
+  50% {
+    text-shadow:
+      0 0 20px rgba(0, 200, 255, 0.5),
+      0 0 50px rgba(0, 200, 255, 0.2),
+      0 0 80px rgba(0, 200, 255, 0.05);
+  }
+}
+
+.animate-zenTextGlow {
+  animation: zenTextGlow 3s ease-in-out infinite;
+}
+
+/* Zen Mode: enhanced visualizer bars */
+@keyframes zenVisualizerBar {
+  0%,
+  100% {
+    height: 6px;
+  }
+  15% {
+    height: 48px;
+  }
+  30% {
+    height: 16px;
+  }
+  45% {
+    height: 56px;
+  }
+  60% {
+    height: 24px;
+  }
+  75% {
+    height: 40px;
+  }
+  90% {
+    height: 10px;
+  }
+}
+
+.animate-zenVisualizer {
+  animation: zenVisualizerBar 1.2s ease-in-out infinite;
+}
+
+/* Selection color */
+::selection {
+  background: rgba(0, 200, 255, 0.3);
+  color: white;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #010103;
+  overflow-x: hidden;
+}
+/* --- EFEK MARQUEE CYBERPUNK --- */
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  width: 100%;
+  /* Efek Gradasi pudar di ujung kanan-kiri biar teks gak kepotong kasar */
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.marquee-content {
+  display: inline-block;
+  animation: marquee-scroll 10s linear infinite;
+}
+
+/* Berhenti gerak kalau disorot mouse */
+.marquee-content:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
