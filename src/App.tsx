@@ -25,14 +25,14 @@ function App() {
 
   const player = useAudioPlayer(tracks);
 
-  // 1. MONITOR AUTH
+  // 1. MONITOR AUTH SESSION
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => setSession(session));
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => setSession(session));
     return () => subscription.unsubscribe();
   }, []);
 
-  // 2. FETCH TRACKS
+  // 2. FETCH TRACKS DATA
   useEffect(() => {
     fetchTracks().then((data) => {
       setTracks(data);
@@ -40,7 +40,7 @@ function App() {
     });
   }, []);
 
-  // 3. SYNC LIKES
+  // 3. SYNC LIKES FROM DATABASE
   useEffect(() => {
     if (session?.user) {
       const fetchLikes = async () => {
@@ -56,15 +56,54 @@ function App() {
     }
   }, [session]);
 
-  // 4. HANDLERS
+  // 4. NEURAL SHORTCUTS PROTOCOL
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Proteksi: Abaikan jika sedang mengetik di input/form
+      const isTyping = 
+        document.activeElement instanceof HTMLInputElement || 
+        document.activeElement instanceof HTMLTextAreaElement;
+
+      if (isTyping) return;
+
+      const key = e.key.toLowerCase();
+
+      // Z -> Zen Mode
+      if (key === 'z') {
+        e.preventDefault();
+        setZenMode(prev => !prev);
+      }
+
+      // Space -> Play/Pause
+      if (e.key === ' ') {
+        e.preventDefault(); 
+        player.togglePlay();
+      }
+
+      // Arrows -> Navigation
+      if (e.key === 'ArrowRight') player.playNext();
+      if (e.key === 'ArrowLeft') player.playPrev();
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [player, zenMode]); // Dependencies agar state selalu fresh
+
+  // 5. DATABASE HANDLERS
   const toggleLike = useCallback(async (id: number) => {
     if (!session?.user) return;
     const isLiked = likedIds.includes(id);
+
     if (isLiked) {
-      const { error } = await supabase.from('likes').delete().match({ user_id: session.user.id, track_id: id });
+      const { error } = await supabase
+        .from('likes')
+        .delete()
+        .match({ user_id: session.user.id, track_id: id });
       if (!error) setLikedIds(prev => prev.filter(x => x !== id));
     } else {
-      const { error } = await supabase.from('likes').insert([{ user_id: session.user.id, track_id: id }]);
+      const { error } = await supabase
+        .from('likes')
+        .insert([{ user_id: session.user.id, track_id: id }]);
       if (!error) setLikedIds(prev => [...prev, id]);
     }
   }, [session, likedIds]);
@@ -75,14 +114,14 @@ function App() {
   }, []);
 
   const handleAddPlaylist = useCallback(() => {
-    const name = prompt("New Playlist Name:");
+    const name = prompt("Nama Playlist Baru:");
     if (name?.trim()) setPlaylists(prev => [...prev, name]);
   }, [setPlaylists]);
 
   if (loading) {
     return (
       <div className="min-h-screen bg-[#010103] flex items-center justify-center text-cyan-400">
-        <Loader2 className="animate-spin mr-2" /> INITIALIZING NEURAL LINK...
+        <Loader2 className="animate-spin mr-2" /> INITIALIZING FLUX...
       </div>
     );
   }
@@ -146,7 +185,11 @@ function App() {
         </>
       )}
       {zenMode && player.currentTrack && (
-        <ZenMode track={player.currentTrack} currentTime={player.currentTime} onClose={() => setZenMode(false)} />
+        <ZenMode 
+          track={player.currentTrack} 
+          currentTime={player.currentTime} 
+          onClose={() => setZenMode(false)} 
+        />
       )}
     </div>
   );
